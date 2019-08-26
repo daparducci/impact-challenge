@@ -24,6 +24,26 @@ const myList = [];
 
 console.log(JSON.stringify(myList));
 
+function getCookie() {
+  const row = document.createElement("tr");
+  const list = document.querySelector("#item-list");
+  var theString = JSON.parse(document.cookie);
+  theString.forEach(function(el) {
+    console.log(el);
+    Object.keys(el).forEach(function(key) {
+      console.log(key, el[key]);
+      row.innerHTML = `
+            <td>${el[key]}<td>
+            <td>${el[key]}<td>
+            <td>${el[key]}<td>
+            <td>{(item.completed = false)}<td>
+            <td><a href="#" class="btn btn-primary btn-sm edit" id="edit">Edit</a><td>
+            <td><a href="#" class="btn btn-danger btn-sm delete">X</a><td>
+        `;
+      list.appendChild(row);
+    });
+  });
+}
 class List {
   constructor(qty, name, units, completed, actions) {
     this.qty = qty;
@@ -87,20 +107,22 @@ class userInt {
 
 //Store Class
 
-// class Store {
-//     static getList() {
-//         let list;
-//         if()
-//     }
+class Store {
+  static getList() {
+    let list;
+    if (document.cookie === undefined) {
+      list = [];
+    } else {
+      list = JSON.parse(document.cookie);
+    }
+  }
 
-//     static addList() {
-//         let list = [];
-//     }
+  static addList() {
+    let list = [];
+  }
 
-//     static removeList() {
-
-//     }
-// }
+  static removeList() {}
+}
 
 //Events: Display List
 document.addEventListener("DOMContentLoaded", userInt.displayList);
