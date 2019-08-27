@@ -1,49 +1,32 @@
-// const submitElem = document.getElementById("submit");
-// const shoppingList = [];
-// submitElem.addEventListener("click", function() {
-//   console.log("Clicked");
-//   const list = document.querySelector("#item-list");
-//   const row = document.createElement("tr");
-//   const quantity = document.getElementById("quantity").value;
-//   const name = document.getElementById("name").value;
-//   const unit = document.getElementById("unit").value;
-//   row.innerHTML = `
-//     <td>${quantity}</td>
-//     <td>${name}</td>
-//     <td>${unit}</td>
-//     <td>No</td>
-//     <td><button class="btn btn-primary btn-sm edit">Edit</button></td>
-//   `;
-//   list.appendChild(row);
-//   shoppingList.push[]
-// });
-
-//Book Class : Represents a book
-
 const myList = [];
+
+window.onload = function() {
+  //   const row = document.createElement("tr");
+  const list = document.querySelector("#item-list");
+  var theString = JSON.parse(document.cookie);
+  console.log("T he String: ", theString);
+  for (i = 0; i < theString.length; i++) {
+    myList.push(theString[i]);
+    console.log("The String: ", theString);
+  }
+  for (i = 0; i < myList.length; i++) {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+            <td>${myList[i].qty}<td>
+            <td>${myList[i].name}<td>
+            <td>${myList[i].units}<td>
+            <td>${(myList[i].completed = false)}<td>
+            <td><a href="#" class="btn btn-primary btn-sm edit" >Edit</a><td>
+            <td><a href="#" class="btn btn-danger btn-sm delete" id=d${i}>X</a><td>
+        `;
+    list.appendChild(row);
+  }
+  console.log("MyList Here:", myList);
+};
 
 console.log(JSON.stringify(myList));
 
-function getCookie() {
-  const row = document.createElement("tr");
-  const list = document.querySelector("#item-list");
-  var theString = JSON.parse(document.cookie);
-  theString.forEach(function(el) {
-    console.log(el);
-    Object.keys(el).forEach(function(key) {
-      console.log(key, el[key]);
-      row.innerHTML = `
-            <td>${el[key]}<td>
-            <td>${el[key]}<td>
-            <td>${el[key]}<td>
-            <td>{(item.completed = false)}<td>
-            <td><a href="#" class="btn btn-primary btn-sm edit" id="edit">Edit</a><td>
-            <td><a href="#" class="btn btn-danger btn-sm delete">X</a><td>
-        `;
-      list.appendChild(row);
-    });
-  });
-}
 class List {
   constructor(qty, name, units, completed, actions) {
     this.qty = qty;
@@ -56,17 +39,13 @@ class List {
 
 class userInt {
   static displayList() {
-    const storedList = [
-      {
-        qty: 5,
-        name: "apples",
-        units: "each",
-        completed: "No"
-      }
-    ];
+    const storedList = myList;
     const shoppinglist = storedList;
-
-    shoppinglist.forEach(item => userInt.addItemToList(item));
+    console.log("shopping", shoppinglist);
+    shoppinglist.forEach(function(item) {
+      console.log("foreach: ", item);
+    });
+    //shoppinglist.forEach(item => userInt.addItemToList(item));
   }
 
   static addItemToList(item) {
@@ -81,16 +60,19 @@ class userInt {
             <td>${item.units}<td>
             <td>${(item.completed = false)}<td>
             <td><a href="#" class="btn btn-primary btn-sm edit" id="edit">Edit</a><td>
-            <td><a href="#" class="btn btn-danger btn-sm delete">X</a><td>
+            <td><a href="#" class="btn btn-danger btn-sm delete" id=d${i}>X</a><td>
         `;
     list.appendChild(row);
+    row.lastElementChild.addEventListener("click", function() {
+      console.log("please");
+    });
   }
 
-  static deleteItem(elem) {
-    if (elem.classList.contains("delete")) {
-      elem.parentElement.parentElement.remove();
-    }
-  }
+  //   static deleteItem(elem) {
+  //     if (elem.classList.contains("delete")) {
+  //       elem.parentElement.parentElement.remove();
+  //     }
+  //   }
 
   static editItem(elem) {
     if (elem.classList.contains("edit")) {
@@ -125,7 +107,11 @@ class Store {
 }
 
 //Events: Display List
-document.addEventListener("DOMContentLoaded", userInt.displayList);
+document.addEventListener(
+  "DOMContentLoaded",
+  userInt.displayList,
+  userInt.getCookie
+);
 //Event: Add A List Item
 document.getElementById("list-form").addEventListener("submit", e => {
   e.preventDefault();
@@ -147,9 +133,15 @@ document.getElementById("list-form").addEventListener("submit", e => {
 });
 // Event: Remove Item
 
-document.querySelector("#item-list").addEventListener("click", e => {
-  userInt.deleteItem(e.target);
-});
+// document.querySelectorAll("#item-list").addEventListener("click", e => {
+//   userInt.deleteItem(e.target);
+// });
+
+for (i = 0; i < myList.length; i++) {
+  document.getElementById(`d${i}`).addEventListener("click", function() {
+    console.log("this better fucking work");
+  });
+}
 
 document.querySelector("#item-list").addEventListener("click", e => {
   userInt.editItem(e.target);
