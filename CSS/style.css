@@ -1,0 +1,21 @@
+body {
+  background-color: grey;
+  color: white;
+}
+
+.form-group {
+  display: flex;
+  width: 20vw;
+  flex-direction: column;
+  padding-bottom: 25px;
+}
+
+label {
+  font-weight: bold;
+}
+
+.list-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

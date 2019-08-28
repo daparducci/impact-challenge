@@ -20,24 +20,25 @@
       <form action="" id="list-form">
         <div class="form-group">
           <label for="title">Quantity</label>
-          <input type="text" class="form-control" id="quantity" />
+          <input type="text" class="form-control-sm" id="quantity" />
         </div>
         <div class="form-group">
           <label for="title">Name</label>
-          <input type="text" class="form-control" id="name" />
+          <input type="text" class="form-control-sm" id="name" />
         </div>
         <div class="form-group">
           <label for="title">Unit</label>
-          <input type="text" class="form-control" id="unit" />
+          <input type="text" class="form-control-sm" id="unit" />
         </div>
         <div class="form-group">
-          <label for="title">Complete</label>
-          <input type="text" class="form-control" id="completed" />
+          <label for="title">Completed(True or False)</label>
+          <input type="text" class="form-control-sm" id="completed" />
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="title">Actions</label>
-          <input type="text" class="form-control" id="actions" />
-        </div>
+          <input type="text" class="form-control-sm" id="actions" />
+        </div> -->
+
         <button
           type="submit"
           value="add book"
@@ -47,7 +48,7 @@
           Submit
         </button>
       </form>
-      <table class="table table-striped mt-5">
+      <table class="table text-center mt-5">
         <thead>
           <tr>
             <th>Quantity</th>
@@ -55,7 +56,7 @@
             <th>Unit</th>
             <th>Completed</th>
             <th>Actions</th>
-            <th></th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody id="item-list"></tbody>

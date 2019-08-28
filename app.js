@@ -3,13 +3,11 @@ var myList = [];
 window.onload = function() {
   console.log(document.cookie);
   if (document.cookie) {
-    //   const row = document.createElement("tr");
     const list = document.querySelector("#item-list");
     var theString = JSON.parse(document.cookie);
-    //console.log("T he String: ", theString);
+
     for (i = 0; i < theString.length; i++) {
       myList.push(theString[i]);
-      //console.log("The String: ", theString);
     }
     for (i = 0; i < myList.length; i++) {
       const row = document.createElement("tr");
@@ -18,17 +16,24 @@ window.onload = function() {
                   <td>${myList[i].qty}<td>
                   <td>${myList[i].name}<td>
                   <td>${myList[i].units}<td>
-                  <td>${(myList[i].completed = false)}<td>
-                  <td><a href="#" class="btn btn-primary btn-sm edit" >Edit</a><td>
+                  <td>${myList[i].completed}<td>
+                  <td><button href="#" class="btn btn-primary btn-sm edit" id=e${i}>Edit</button><td>
                   <td><a href="#" class="btn btn-danger btn-sm delete" id=${i}>X</a><td>
               `;
       list.appendChild(row);
+      var delElem = document.getElementById(`${i}`);
+      delElem.addEventListener("click", function(e) {
+        userInt.deleteItem(e.target);
+        let idx = e.target.id;
+        myList.splice(idx, 1);
+        console.log("THE INDEX", idx);
+        var jsonList = JSON.stringify(myList);
+        document.cookie = jsonList;
+        console.log("EVENT FINALLY");
+      });
     }
-    //console.log("MyList Here:", myList);
   }
 };
-
-console.log(JSON.stringify(myList));
 
 class List {
   constructor(qty, name, units, completed, actions) {
@@ -38,21 +43,14 @@ class List {
   }
 }
 
-//UI Class: Handles UI Tasks
-
 class userInt {
   static displayList() {
     const storedList = myList;
     const shoppinglist = storedList;
-    //console.log("shopping", shoppinglist);
-
-    //shoppinglist.forEach(item => userInt.addItemToList(item));
   }
 
   static addItemToList(item) {
-    //console.log(item);
     const list = document.querySelector("#item-list");
-
     const row = document.createElement("tr");
 
     row.innerHTML = `
@@ -60,9 +58,10 @@ class userInt {
             <td>${item.name}<td>
             <td>${item.units}<td>
             <td>${(item.completed = false)}<td>
-            <td><a href="#" class="btn btn-primary btn-sm edit" id="edit">Edit</a><td>
+            <td><button href="#" class="btn btn-primary btn-sm edit" id="">Edit</button><td>
             <td><a href="#" class="btn btn-danger btn-sm delete" id="">X</a><td>
         `;
+
     list.appendChild(row);
   }
 
@@ -126,17 +125,16 @@ document.getElementById("list-form").addEventListener("submit", e => {
   document.cookie = stringList;
 });
 
-// Delete Event
-document.querySelector("#item-list").addEventListener("click", e => {
-  console.log("MyList before anything deleted: ", myList);
-  let idx = e.target.id;
-  myList.splice(idx, 1);
-  console.log("THE INDEX", idx);
-  var jsonList = JSON.stringify(myList);
-  document.cookie = jsonList;
-  userInt.deleteItem(e.target);
-});
-
 document.querySelector("#item-list").addEventListener("click", e => {
   userInt.editItem(e.target);
+  let idx = e.target.id.substring(1);
+
+  if (myList[idx].completed === false) {
+    myList[idx].completed = true;
+  } else if (myList[idx].completed === true) {
+    myList[idx].completed = false;
+  }
+
+  var jsonList = JSON.stringify(myList);
+  document.cookie = jsonList;
 });
